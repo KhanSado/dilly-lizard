@@ -8,12 +8,16 @@ import { CreateBookDto } from "./dto/create-book.dto";
 export class BooksService {
   constructor(private prismaService: PrismaService) {}
 
-  async createBook(userId: number, createPostDto: CreateBookDto): Promise<Book> {
+  async createBook(userId: number, authorId: number, createBookDto: CreateBookDto): Promise<Book> {
+
     return this.prismaService.book.create({
       data: {
-        title: createPostDto.title,
-        subtitle: createPostDto.subtitle,
-        sumary: createPostDto.sumary,
+        title: createBookDto.title,
+        subtitle: createBookDto.subtitle,
+        sumary: createBookDto.sumary,
+        author: {
+          connect: { id: Number(authorId) },
+        },
         user_owner: {
           connect: { id: userId },
         },

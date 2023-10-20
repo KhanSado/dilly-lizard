@@ -8,10 +8,10 @@ import { JwtAuthGuard } from 'src/authentication/auth.guard';
 export class BookController {
   constructor(private readonly bookService: BooksService) {}
 
-  @Post()
+  @Post(':authorId')
   @UseGuards(JwtAuthGuard)
-  createBook(@Request() req,  @Body() createPostDto: CreateBookDto): Promise<Book>{
-    return this.bookService.createBook(req.user.id, createPostDto);
+  createBook(@Request() req, @Param('authorId') authorId: number,  @Body() createPostDto: CreateBookDto): Promise<Book>{
+    return this.bookService.createBook(req.user.id, authorId, createPostDto);
   }
 
   @Get()
