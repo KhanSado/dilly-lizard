@@ -26,6 +26,7 @@ CREATE TABLE "Author" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(45) NOT NULL,
     "lastname" VARCHAR(45) NOT NULL,
+    "usersId" INTEGER,
 
     CONSTRAINT "Author_pkey" PRIMARY KEY ("id")
 );
@@ -41,3 +42,6 @@ ALTER TABLE "Book" ADD CONSTRAINT "Book_usersId_fkey" FOREIGN KEY ("usersId") RE
 
 -- AddForeignKey
 ALTER TABLE "Book" ADD CONSTRAINT "Book_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "Author"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Author" ADD CONSTRAINT "Author_usersId_fkey" FOREIGN KEY ("usersId") REFERENCES "Users"("id") ON DELETE SET NULL ON UPDATE CASCADE;

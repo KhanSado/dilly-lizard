@@ -23,7 +23,7 @@ model Book {
   title         String    @db.VarChar(75)
   subtitle      String?   @db.VarChar(75)
   sumary        String    @db.VarChar(150)
-  usersId       Int?
+  usersId       Int
   user_owner    Users?    @relation(fields: [usersId], references: [id])
   authorId      Int?
   author        Author?   @relation(fields: [authorId], references: [id])
@@ -33,7 +33,7 @@ model Author {
   id            Int       @id @default(autoincrement())
   name          String    @db.VarChar(45)
   lastname      String    @db.VarChar(45)
-  usersId       Int?
+  usersId       Int
   user_owner    Users?    @relation(fields: [usersId], references: [id])
   book          Book[]
 }

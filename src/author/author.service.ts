@@ -23,7 +23,7 @@ export class AuthorService {
   async findAuthorByUserId(authorId: number) {
     return this.prismaService.author.findMany({
       where: {
-        id: authorId,
+        id: Number(authorId),
       },
       include: {
         book: true,
