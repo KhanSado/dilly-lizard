@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Request, Patch, Param } from '@nestjs/common';
 import { BooksService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { Book } from '@prisma/client';
@@ -18,5 +18,12 @@ export class BookController {
   @UseGuards(JwtAuthGuard)
   findBooksByUserId(@Request() req) {
     return this.bookService.findBooksByUserId(req.user.id);
+  }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  updateBook(@Request() req, @Param('id') bookId: string, @Body() bookData: any) {
+    const userId = req.user.id;
+    return this.bookService.updateBook(userId, bookId, bookData);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { Book } from "@prisma/client";
 import { PrismaService } from "src/prisma.service";
 import { CreateBookDto } from "./dto/create-book.dto";
@@ -25,6 +25,24 @@ export class BooksService {
     return this.prismaService.book.findMany({
       where: {
         usersId: userId,
+      },
+    });
+  }
+
+  async updateBook(userId: number, bookId: string, bookData: any) {
+    const existingBook = await this.prismaService.book.findUnique({
+      where: { id: bookId },
+    });
+
+    if (!existingBook || existingBook.usersId !== userId) {
+      throw new NotFoundException('Livro não encontrado');
+    }
+    return this.prismaService.book.update({
+      where: { id: bookId },
+      data: {
+        title: bookData.title,
+        subtitle: bookData.subtitle,
+        sumary: bookData.sumary,
       },
     });
   }
