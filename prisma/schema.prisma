@@ -16,6 +16,7 @@ model Users {
   email    String @unique @db.VarChar(45)
   book     Book[]
   authors  Author[]
+  gender   Gender[]
 }
 
 model Book {
@@ -27,12 +28,23 @@ model Book {
   user_owner    Users?    @relation(fields: [usersId], references: [id])
   authorId      Int?
   author        Author?   @relation(fields: [authorId], references: [id])
+  genderId      Int?     
+  gender        Gender?   @relation(fields: [genderId], references: [id])
 }
 
 model Author {
   id            Int       @id @default(autoincrement())
   name          String    @db.VarChar(45)
   lastname      String    @db.VarChar(45)
+  usersId       Int
+  user_owner    Users?    @relation(fields: [usersId], references: [id])
+  book          Book[]
+}
+
+model Gender {
+  id            Int       @id @default(autoincrement())
+  name          String    @db.VarChar(45)
+  description   String    @db.VarChar(45)
   usersId       Int
   user_owner    Users?    @relation(fields: [usersId], references: [id])
   book          Book[]
