@@ -25,6 +25,10 @@ export class AuthorService {
       where: {
         id: authorId,
       },
+      include: {
+        book: true,
+        user_owner: true
+      }
     });
   }
 

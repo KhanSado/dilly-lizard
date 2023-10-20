@@ -26,11 +26,18 @@ export class BooksService {
   }
 
   async findBooksByUserId(userId: number) {
-    return this.prismaService.book.findMany({
+
+    const books =  this.prismaService.book.findMany({
       where: {
         usersId: userId,
       },
+      include: {
+        user_owner: true, 
+        author: true
+      },
     });
+
+    return books
   }
 
   async updateBook(userId: number, bookId: string, bookData: any) {

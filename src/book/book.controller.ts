@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Request, Patch, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Request, Patch, Param, Query } from '@nestjs/common';
 import { BooksService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { Book } from '@prisma/client';
@@ -8,10 +8,13 @@ import { JwtAuthGuard } from 'src/authentication/auth.guard';
 export class BookController {
   constructor(private readonly bookService: BooksService) {}
 
-  @Post(':authorId')
+  @Post()
   @UseGuards(JwtAuthGuard)
-  createBook(@Request() req, @Param('authorId') authorId: number,  @Body() createPostDto: CreateBookDto): Promise<Book>{
-    return this.bookService.createBook(req.user.id, authorId, createPostDto);
+  createBook(@Request() req, @Query('authorId') authorId: number,  @Body() createPostDto: CreateBookDto): Promise<Book>{
+    return this.bookService.createBook(
+      req.user.id,
+      authorId, 
+      createPostDto);
   }
 
   @Get()
