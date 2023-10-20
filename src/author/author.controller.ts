@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Request} from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Request, Patch, Param} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/authentication/auth.guard';
 import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
@@ -21,10 +21,10 @@ export class AuthorController {
     return this.authorService.findAuthorByUserId(req.user.id);
   }
 
-  // @Patch(':id')
-  // @UseGuards(JwtAuthGuard)
-  // updateBook(@Request() req, @Param('id') bookId: string, @Body() bookData: any) {
-  //   const userId = req.user.id;
-  //   return this.bookService.updateBook(userId, bookId, bookData);
-  // }
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  updateBook(@Request() req, @Param('id') authorId: number, @Body() bookData: any) {
+    const userId = req.user.id;
+    return this.authorService.updateAuthor(userId, authorId, bookData);
+  }
 }

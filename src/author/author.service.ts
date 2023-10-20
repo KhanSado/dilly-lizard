@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { CreateAuthorDto } from "./dto/create-author.dto";
 import { Author } from "./entities/author.entity";
@@ -32,21 +32,20 @@ export class AuthorService {
     });
   }
 
-  // async updateAuthor(userId: number, bookId: string, bookData: any) {
-  //   const existingBook = await this.prismaService.book.findUnique({
-  //     where: { id: bookId },
-  //   });
+  async updateAuthor(userId: number, authorId: number, authorData: any) {
+    const existingAuthor = await this.prismaService.author.findUnique({
+      where: { id: Number(authorId) },
+    });
 
-  //   if (!existingBook || existingBook.usersId !== userId) {
-  //     throw new NotFoundException('Livro não encontrado');
-  //   }
-  //   return this.prismaService.book.update({
-  //     where: { id: bookId },
-  //     data: {
-  //       title: bookData.title,
-  //       subtitle: bookData.subtitle,
-  //       sumary: bookData.sumary,
-  //     },
-  //   });
-  // }
+    if (!existingAuthor || existingAuthor.usersId !== userId) {
+      throw new NotFoundException('Author not found');
+    }
+    return this.prismaService.author.update({
+      where: { id: Number(authorId) },
+      data: {
+        name: authorData.name,
+        lastname: authorData.lastname,
+      },
+    });
+  }
 }
