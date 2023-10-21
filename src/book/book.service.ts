@@ -1,19 +1,14 @@
-import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { Book } from "@prisma/client";
 import { PrismaService } from "src/prisma.service";
 import { CreateBookDto } from "./dto/create-book.dto";
-import { AuthorService } from "src/author/author.service";
 
 
 @Injectable()
 export class BooksService {
-  constructor(private prismaService: PrismaService, private authorService: AuthorService) {}
+  constructor(private prismaService: PrismaService) {}
 
-  async createBook(userId: number, authorId: number, createBookDto: CreateBookDto): Promise<Book> {
-
-  const author = await this.authorService.findAuthorByUserId(authorId)
-
-    if (author[0].usersId === userId) {
+  async createBook(genderId: number, userId: number, authorId: number, createBookDto: CreateBookDto): Promise<Book> {
       return this.prismaService.book.create({
         data: {
           title: createBookDto.title,
@@ -22,14 +17,14 @@ export class BooksService {
           author: {
             connect: { id: Number(authorId) },
           },
+          gender: {
+            connect: { id: Number(genderId) }
+          },
           user_owner: {
             connect: { id: userId },
           },
         },
       });
-    } else {
-      throw new UnauthorizedException('O recurso author não pertence ao usuário.');
-    }
   }
 
   async findBooksByUserId(userId: number) {

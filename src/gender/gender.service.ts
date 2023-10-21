@@ -20,10 +20,10 @@ export class GenderService {
     });
   }
 
-  async findGenderById(genderId: number) {
+  async findGenderByUserId(userId: number) {
     return this.prismaService.gender.findMany({
       where: {
-        id: Number(genderId),
+        usersId: Number(userId),
       },
       include: {
         book: true,

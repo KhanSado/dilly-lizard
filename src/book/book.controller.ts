@@ -10,8 +10,9 @@ export class BookController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  createBook(@Request() req, @Query('authorId') authorId: number,  @Body() createPostDto: CreateBookDto): Promise<Book>{
+  createBook(@Request() req, @Query('authorId') authorId: number, @Query('genderId') genderId: number,  @Body() createPostDto: CreateBookDto): Promise<Book>{
     return this.bookService.createBook(
+      genderId,
       req.user.id,
       authorId, 
       createPostDto);

@@ -18,7 +18,7 @@ export class GenderController {
   @Get()
   @UseGuards(JwtAuthGuard)
   findBooksByUserId(@Request() req) {
-    return this.genderService.findGenderById(req.user.id);
+    return this.genderService.findGenderByUserId(req.user.id);
   }
 
   @Patch(':id')
