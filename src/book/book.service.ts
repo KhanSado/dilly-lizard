@@ -59,4 +59,20 @@ export class BooksService {
       },
     });
   }
+
+  async insertBookImageCover(userId: number, bookId: string, bookCover: string) {
+    const existingBook = await this.prismaService.book.findUnique({
+      where: { id: bookId },
+    });
+
+    if (!existingBook || existingBook.usersId !== userId) {
+      throw new NotFoundException('Livro não encontrado');
+    }
+    return this.prismaService.book.update({
+      where: { id: bookId },
+      data: {
+        bookCover: bookCover
+      },
+    });
+  }
 }

@@ -1,8 +1,24 @@
-import { Controller, Post, Body, Get, UseGuards, Request, Patch, Param, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Request, Patch, Param, Query, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { BooksService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { Book } from '@prisma/client';
 import { JwtAuthGuard } from 'src/authentication/auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import path = require('path');
+
+export const storage = {
+  storage: diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, './uploads/bookCovers');
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      const extension: string = path.parse(file.originalname).ext;
+      cb(null, `${uniqueSuffix}${extension}`);
+    },
+  })
+}
 
 @Controller('books')
 export class BookController {
@@ -29,5 +45,15 @@ export class BookController {
   updateBook(@Request() req, @Param('id') bookId: string, @Body() bookData: any) {
     const userId = req.user.id;
     return this.bookService.updateBook(userId, bookId, bookData);
+  }
+
+  @Post('upload/:id')
+  @UseInterceptors(FileInterceptor('file', storage))
+  @UseGuards(JwtAuthGuard)
+  uploadFile(@Request() req, @Param('id') bookId: string, @UploadedFile() file){
+      console.log(file);
+      const userId = req.user.id;
+      const imagePath =  file.path
+      return this.bookService.insertBookImageCover(userId, bookId, imagePath);
   }
 }

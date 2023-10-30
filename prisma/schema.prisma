@@ -24,6 +24,7 @@ model Book {
   title         String    @db.VarChar(75)
   subtitle      String?   @db.VarChar(75)
   sumary        String    @db.VarChar(150)
+  bookCover     String?    @db.VarChar(150)
   usersId       Int
   user_owner    Users?    @relation(fields: [usersId], references: [id])
   authorId      Int?

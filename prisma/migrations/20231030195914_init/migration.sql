@@ -15,6 +15,7 @@ CREATE TABLE "Book" (
     "title" VARCHAR(75) NOT NULL,
     "subtitle" VARCHAR(75),
     "sumary" VARCHAR(150) NOT NULL,
+    "bookCover" VARCHAR(150),
     "usersId" INTEGER NOT NULL,
     "authorId" INTEGER,
     "genderId" INTEGER,

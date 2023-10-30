@@ -5,6 +5,7 @@ export class Book implements Prisma.BookCreateInput {
     subtitle?: string;
     title: string;
     sumary: string;
+    bookCover?: string;
     user_owner: Prisma.UsersCreateNestedOneWithoutBookInput;
     author?: Prisma.AuthorCreateNestedOneWithoutBookInput;
 }
