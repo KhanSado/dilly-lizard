@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Request, Patch, Param} from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Request, Patch, Param, Delete} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/authentication/auth.guard';
 import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
@@ -10,21 +10,28 @@ export class AuthorController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  createBook(@Request() req,  @Body() createAuthorDto: CreateAuthorDto): Promise<Author>{
+  createAuthor(@Request() req,  @Body() createAuthorDto: CreateAuthorDto): Promise<Author>{
     const userId = req.user.id;
     return this.authorService.createAuthor(userId, createAuthorDto);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  findBooksByUserId(@Request() req) {
+  findAuthorsByUserId(@Request() req) {
     return this.authorService.findAuthorByUserId(req.user.id);
   }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  updateBook(@Request() req, @Param('id') authorId: number, @Body() bookData: any) {
+  updateAuthor(@Request() req, @Param('id') authorId: number, @Body() bookData: any) {
     const userId = req.user.id;
     return this.authorService.updateAuthor(userId, authorId, bookData);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  deleteAuthor(@Request() req, @Param('id') authorId: number, @Body() bookData: any) {
+    const userId = req.user.id;
+    return this.authorService.deleteAuthor(userId, authorId, bookData);
   }
 }

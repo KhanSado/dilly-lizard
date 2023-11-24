@@ -48,4 +48,17 @@ export class AuthorService {
       },
     });
   }
+
+  async deleteAuthor(userId: number, authorId: number, authorData: any) {
+    const existingAuthor = await this.prismaService.author.findUnique({
+      where: { id: Number(authorId) },
+    });
+
+    if (!existingAuthor || existingAuthor.usersId !== userId) {
+      throw new NotFoundException('Author not found');
+    }
+    return this.prismaService.author.deleteMany({
+      where: { id: Number(authorId) }
+    });
+  }
 }

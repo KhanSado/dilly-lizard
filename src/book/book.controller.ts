@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Request, Patch, Param, Query, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Request, Patch, Param, Query, UseInterceptors, UploadedFile, Delete } from '@nestjs/common';
 import { BooksService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { Book } from '@prisma/client';
@@ -45,6 +45,13 @@ export class BookController {
   updateBook(@Request() req, @Param('id') bookId: string, @Body() bookData: any) {
     const userId = req.user.id;
     return this.bookService.updateBook(userId, bookId, bookData);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  deleteBook(@Request() req, @Param('id') bookId: string, @Body() bookData: any) {
+    const userId = req.user.id;
+    return this.bookService.deleteBook(userId, bookId, bookData);
   }
 
   @Post('upload/:id')

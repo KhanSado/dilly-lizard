@@ -48,4 +48,17 @@ export class GenderService {
       },
     });
   }
+
+  async deleteGender(userId: number, genderId: number, genderData: any) {
+    const existingGender = await this.prismaService.gender.findUnique({
+      where: { id: Number(genderId) },
+    });
+
+    if (!existingGender || existingGender.usersId !== userId) {
+      throw new NotFoundException('Gender not found');
+    }
+    return this.prismaService.gender.deleteMany({
+      where: { id: Number(genderId) }
+    });
+  }
 }
