@@ -9,7 +9,7 @@ datasource db {
 
 
 model Users {
-  id       Int    @id @default(autoincrement())
+  id       String    @id @default(uuid())
   name     String @db.VarChar(100)
   password String @db.VarChar(100)
   username String @unique @db.VarChar(45)
@@ -17,6 +17,7 @@ model Users {
   book     Book[]
   authors  Author[]
   gender   Gender[]
+  publisherCompany PublishingCompany[]
 }
 
 model Book {
@@ -24,29 +25,45 @@ model Book {
   title         String    @db.VarChar(75)
   subtitle      String?   @db.VarChar(75)
   sumary        String    @db.VarChar(150)
-  bookCover     String?    @db.VarChar(150)
-  usersId       Int
+  isReading     Boolean   @db.Boolean
+  readed        Boolean   @db.Boolean
+  bookCover     String?   @db.VarChar(150)
+
+  usersId       String
   user_owner    Users?    @relation(fields: [usersId], references: [id])
-  authorId      Int?
+
+  authorId      String?
   author        Author?   @relation(fields: [authorId], references: [id])
-  genderId      Int?     
+
+  genderId      String?     
   gender        Gender?   @relation(fields: [genderId], references: [id])
+
+  publisherCompanyId    String?
+  publisherCompany        PublishingCompany?    @relation(fields: [publisherCompanyId], references: [id])
 }
 
 model Author {
-  id            Int       @id @default(autoincrement())
+  id            String    @id @default(uuid())
   name          String    @db.VarChar(45)
   lastname      String    @db.VarChar(45)
-  usersId       Int
+  usersId       String
+  user_owner    Users?    @relation(fields: [usersId], references: [id])
+  book          Book[]
+} 
+
+model Gender {
+  id            String    @id @default(uuid())
+  name          String    @db.VarChar(45)
+  description   String    @db.VarChar(45)
+  usersId       String
   user_owner    Users?    @relation(fields: [usersId], references: [id])
   book          Book[]
 }
 
-model Gender {
-  id            Int       @id @default(autoincrement())
-  name          String    @db.VarChar(45)
-  description   String    @db.VarChar(45)
-  usersId       Int
+model PublishingCompany {
+  id            String    @id @default(uuid())
+  name          String    @db.VarChar(75)
+  usersId       String
   user_owner    Users?    @relation(fields: [usersId], references: [id])
   book          Book[]
 }

@@ -8,7 +8,7 @@ import { Author } from "./entities/author.entity";
 export class AuthorService {
   constructor(private prismaService: PrismaService) {}
 
-  async createAuthor(userId: number, createAuthorDto: CreateAuthorDto): Promise<Author> {
+  async createAuthor(userId: string, createAuthorDto: CreateAuthorDto): Promise<Author> {
     return this.prismaService.author.create({
       data: {
         name: createAuthorDto.name,
@@ -20,10 +20,10 @@ export class AuthorService {
     });
   }
 
-  async findAuthorByUserId(userId: number) {
+  async findAuthorByUserId(userId: string) {
     return this.prismaService.author.findMany({
       where: {
-        usersId: Number(userId),
+        usersId: userId,
       },
       include: {
         book: true,
@@ -32,16 +32,16 @@ export class AuthorService {
     });
   }
 
-  async updateAuthor(userId: number, authorId: number, authorData: any) {
+  async updateAuthor(userId: string, authorId: string, authorData: any) {
     const existingAuthor = await this.prismaService.author.findUnique({
-      where: { id: Number(authorId) },
+      where: { id: authorId },
     });
 
     if (!existingAuthor || existingAuthor.usersId !== userId) {
       throw new NotFoundException('Author not found');
     }
     return this.prismaService.author.update({
-      where: { id: Number(authorId) },
+      where: { id: authorId },
       data: {
         name: authorData.name,
         lastname: authorData.lastname,
@@ -49,16 +49,16 @@ export class AuthorService {
     });
   }
 
-  async deleteAuthor(userId: number, authorId: number, authorData: any) {
+  async deleteAuthor(userId: string, authorId: string, authorData: any) {
     const existingAuthor = await this.prismaService.author.findUnique({
-      where: { id: Number(authorId) },
+      where: { id: authorId },
     });
 
     if (!existingAuthor || existingAuthor.usersId !== userId) {
       throw new NotFoundException('Author not found');
     }
     return this.prismaService.author.deleteMany({
-      where: { id: Number(authorId) }
+      where: { id: authorId }
     });
   }
 }

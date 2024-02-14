@@ -8,26 +8,31 @@ import { CreateBookDto } from "./dto/create-book.dto";
 export class BooksService {
   constructor(private prismaService: PrismaService) {}
 
-  async createBook(genderId: number, userId: number, authorId: number, createBookDto: CreateBookDto): Promise<Book> {
+  async createBook(genderId: string, userId: string, authorId: string, publisherCompanyId: string, createBookDto: CreateBookDto): Promise<Book> {
       return this.prismaService.book.create({
         data: {
           title: createBookDto.title,
           subtitle: createBookDto.subtitle,
           sumary: createBookDto.sumary,
+          isReading: createBookDto.isReading,
+          readed: createBookDto.readed,
           author: {
-            connect: { id: Number(authorId) },
+            connect: { id: authorId },
           },
           gender: {
-            connect: { id: Number(genderId) }
+            connect: { id: genderId }
           },
           user_owner: {
             connect: { id: userId },
           },
+          publisherCompany: {
+            connect: { id: publisherCompanyId }
+          }
         },
       });
   }
 
-  async findBooksByUserId(userId: number) {
+  async findBooksByUserId(userId: string) {
 
     const books =  this.prismaService.book.findMany({
       where: {
@@ -35,14 +40,15 @@ export class BooksService {
       },
       include: {
         user_owner: true, 
-        author: true
+        publisherCompany: true,
+        gender: true
       },
     });
 
     return books
   }
 
-  async updateBook(userId: number, bookId: string, bookData: any) {
+  async updateBook(userId: string, bookId: string, bookData: any) {
     const existingBook = await this.prismaService.book.findUnique({
       where: { id: bookId },
     });
@@ -60,7 +66,7 @@ export class BooksService {
     });
   }
 
-  async deleteBook(userId: number, bookId: string, bookData: any) {
+  async deleteBook(userId: string, bookId: string, bookData: any) {
     const existingBook = await this.prismaService.book.findUnique({
       where: { id: bookId },
     });
@@ -73,7 +79,7 @@ export class BooksService {
     });
   }
 
-  async insertBookImageCover(userId: number, bookId: string, bookCover: string) {
+  async insertBookImageCover(userId: string, bookId: string, bookCover: string) {
     const existingBook = await this.prismaService.book.findUnique({
       where: { id: bookId },
     });

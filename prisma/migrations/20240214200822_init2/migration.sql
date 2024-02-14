@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Users" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" VARCHAR(100) NOT NULL,
     "password" VARCHAR(100) NOT NULL,
     "username" VARCHAR(45) NOT NULL,
@@ -15,32 +15,44 @@ CREATE TABLE "Book" (
     "title" VARCHAR(75) NOT NULL,
     "subtitle" VARCHAR(75),
     "sumary" VARCHAR(150) NOT NULL,
+    "isReading" BOOLEAN NOT NULL,
+    "readed" BOOLEAN NOT NULL,
     "bookCover" VARCHAR(150),
-    "usersId" INTEGER NOT NULL,
-    "authorId" INTEGER,
-    "genderId" INTEGER,
+    "usersId" TEXT NOT NULL,
+    "authorId" TEXT,
+    "genderId" TEXT,
+    "publisherCompanyId" TEXT,
 
     CONSTRAINT "Book_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Author" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" VARCHAR(45) NOT NULL,
     "lastname" VARCHAR(45) NOT NULL,
-    "usersId" INTEGER NOT NULL,
+    "usersId" TEXT NOT NULL,
 
     CONSTRAINT "Author_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Gender" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" VARCHAR(45) NOT NULL,
     "description" VARCHAR(45) NOT NULL,
-    "usersId" INTEGER NOT NULL,
+    "usersId" TEXT NOT NULL,
 
     CONSTRAINT "Gender_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "PublishingCompany" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(75) NOT NULL,
+    "usersId" TEXT NOT NULL,
+
+    CONSTRAINT "PublishingCompany_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -59,7 +71,13 @@ ALTER TABLE "Book" ADD CONSTRAINT "Book_authorId_fkey" FOREIGN KEY ("authorId") 
 ALTER TABLE "Book" ADD CONSTRAINT "Book_genderId_fkey" FOREIGN KEY ("genderId") REFERENCES "Gender"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Book" ADD CONSTRAINT "Book_publisherCompanyId_fkey" FOREIGN KEY ("publisherCompanyId") REFERENCES "PublishingCompany"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Author" ADD CONSTRAINT "Author_usersId_fkey" FOREIGN KEY ("usersId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Gender" ADD CONSTRAINT "Gender_usersId_fkey" FOREIGN KEY ("usersId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PublishingCompany" ADD CONSTRAINT "PublishingCompany_usersId_fkey" FOREIGN KEY ("usersId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

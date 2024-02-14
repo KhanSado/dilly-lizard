@@ -1,9 +1,9 @@
 import { Prisma } from "@prisma/client";
 
 export class Gender implements Prisma.GenderCreateInput {
-    id?: number;
+    id?: string;
     name: string;
     description: string;
-    usersId: number;
+    usersId: string;
     user_owner?: Prisma.UsersCreateNestedOneWithoutBookInput;
 }

@@ -4,10 +4,11 @@ import { AuthModule } from './authentication/auth.module';
 import { BookModule } from './book/book.module';
 import { AuthorModule } from './author/author.module';
 import { GenderModule } from './gender/gender.module';
+import { PublisherCompanyModule } from './publisher-company/publisher-company.module';
 import * as cors from 'cors';
 
 @Module({
-  imports: [UsersModule, AuthModule, BookModule, AuthorModule, GenderModule],
+  imports: [UsersModule, AuthModule, BookModule, AuthorModule, GenderModule, PublisherCompanyModule],
   controllers: [],
   providers: [],
 })

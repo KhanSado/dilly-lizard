@@ -8,7 +8,7 @@ import { Gender } from "@prisma/client";
 export class GenderService {
   constructor(private prismaService: PrismaService) {}
 
-  async createGender(userId: number, createGenderDto: CreateGenderDto): Promise<Gender> {
+  async createGender(userId: string, createGenderDto: CreateGenderDto): Promise<Gender> {
     return this.prismaService.gender.create({
       data: {
         name: createGenderDto.name,
@@ -20,10 +20,10 @@ export class GenderService {
     });
   }
 
-  async findGenderByUserId(userId: number) {
+  async findGenderByUserId(userId: string) {
     return this.prismaService.gender.findMany({
       where: {
-        usersId: Number(userId),
+        usersId: userId,
       },
       include: {
         book: true,
@@ -32,16 +32,16 @@ export class GenderService {
     });
   }
 
-  async updateGender(userId: number, genderId: number, genderData: any) {
+  async updateGender(userId: string, genderId: string, genderData: any) {
     const existingGender = await this.prismaService.gender.findUnique({
-      where: { id: Number(genderId) },
+      where: { id: genderId },
     });
 
     if (!existingGender || existingGender.usersId !== userId) {
       throw new NotFoundException('Gender not found');
     }
     return this.prismaService.gender.update({
-      where: { id: Number(genderId) },
+      where: { id: genderId },
       data: {
         name: genderData.name,
         description: genderData.lastname,
@@ -49,16 +49,16 @@ export class GenderService {
     });
   }
 
-  async deleteGender(userId: number, genderId: number, genderData: any) {
+  async deleteGender(userId: string, genderId: string, genderData: any) {
     const existingGender = await this.prismaService.gender.findUnique({
-      where: { id: Number(genderId) },
+      where: { id: genderId },
     });
 
     if (!existingGender || existingGender.usersId !== userId) {
       throw new NotFoundException('Gender not found');
     }
     return this.prismaService.gender.deleteMany({
-      where: { id: Number(genderId) }
+      where: { id: genderId }
     });
   }
 }

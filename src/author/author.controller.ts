@@ -23,14 +23,14 @@ export class AuthorController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  updateAuthor(@Request() req, @Param('id') authorId: number, @Body() bookData: any) {
+  updateAuthor(@Request() req, @Param('id') authorId: string, @Body() bookData: any) {
     const userId = req.user.id;
     return this.authorService.updateAuthor(userId, authorId, bookData);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  deleteAuthor(@Request() req, @Param('id') authorId: number, @Body() bookData: any) {
+  deleteAuthor(@Request() req, @Param('id') authorId: string, @Body() bookData: any) {
     const userId = req.user.id;
     return this.authorService.deleteAuthor(userId, authorId, bookData);
   }

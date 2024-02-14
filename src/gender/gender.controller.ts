@@ -23,14 +23,14 @@ export class GenderController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  updateGender(@Request() req, @Param('id') authorId: number, @Body() bookData: any) {
+  updateGender(@Request() req, @Param('id') authorId: string, @Body() bookData: any) {
     const userId = req.user.id;
     return this.genderService.updateGender(userId, authorId, bookData);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  deleteGender(@Request() req, @Param('id') authorId: number, @Body() bookData: any) {
+  deleteGender(@Request() req, @Param('id') authorId: string, @Body() bookData: any) {
     const userId = req.user.id;
     return this.genderService.deleteGender(userId, authorId, bookData);
   }
