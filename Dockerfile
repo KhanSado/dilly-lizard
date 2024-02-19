@@ -3,7 +3,7 @@ FROM node:17
 
 RUN yarn cache clean -force
 
-RUN rm -rf /usr/local/bin/yarn
+RUN rm -rf /usr/local/bin
 
 RUN rm -rf ../lib/node_modules 
 
