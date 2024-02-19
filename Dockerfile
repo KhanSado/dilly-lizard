@@ -25,4 +25,4 @@ RUN yarn build -force
 EXPOSE 3000
 
 # Comando para iniciar a aplicação (substitua pelo comando correto para iniciar sua aplicação)
-CMD [ "yarn", "nest start"]
+CMD [ "yarn", "yarn run start:prod"]
