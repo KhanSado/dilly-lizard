@@ -6,7 +6,7 @@ RUN yarn cache clean -force
 RUN rm -rf ../lib/node_modules 
 
 # Instale o Yarn globalmente
-RUN npm install -g yarn
+RUN npm install --location=global yarn
 
 # Instale as dependências do projeto
 RUN yarn install -force
