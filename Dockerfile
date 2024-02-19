@@ -1,14 +1,26 @@
-# Use the official Node.js image as the base image
-FROM node:18
+# Use uma imagem base Node.js
+FROM node:14
 
-# Set the working directory in the container
-WORKDIR /src
+# Instale o Yarn globalmente
+RUN npm install -g yarn
 
-# Copy the application files into the working directory
-COPY . /app
+# Defina o diretório de trabalho dentro do contêiner
+WORKDIR /usr/src
 
-# Install the application dependenciesas
-RUN npm install
+# Copie o arquivo package.json e yarn.lock para o diretório de trabalho
+COPY package.json yarn.lock ./
 
-# Define the entry point for the container
-CMD ["npm", "start"]
+# Instale as dependências do projeto
+RUN yarn install
+
+# Copie o restante dos arquivos do projeto para o diretório de trabalho
+COPY . .
+
+# Construa a aplicação
+RUN yarn build
+
+# Exponha a porta em que a aplicação estará em execução (substitua a porta 3000 pela porta correta, se necessário)
+EXPOSE 3000
+
+# Comando para iniciar a aplicação (substitua pelo comando correto para iniciar sua aplicação)
+CMD [ "yarn", "nest start"]
