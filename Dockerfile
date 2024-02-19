@@ -3,6 +3,8 @@ FROM node:17
 
 RUN apt-get update && apt-get install -y npm
 
+RUN npm cache clean --force
+
 RUN yarn cache clean -force
 
 RUN rm -rf /usr/local/bin
