@@ -6,14 +6,14 @@ RUN yarn cache clean
 # Instale o Yarn globalmente
 RUN npm install -g yarn -force
 
+# Instale as dependências do projeto
+RUN yarn install -force
+
 # Defina o diretório de trabalho dentro do contêiner
 WORKDIR /usr/src
 
 # Copie o arquivo package.json e yarn.lock para o diretório de trabalho
 COPY package.json yarn.lock ./
-
-# Instale as dependências do projeto
-RUN yarn install -force
 
 # Copie o restante dos arquivos do projeto para o diretório de trabalho
 COPY . .
