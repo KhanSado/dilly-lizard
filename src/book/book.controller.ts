@@ -46,7 +46,7 @@ export class BookController {
   async findBooksByUserId(
     @Request() req,
     @Query('currentPage') page: number = 1, // Página padrão é 1
-    @Query('pageSize') pageSize: number = 20 // Tamanho padrão da página é 20
+    @Query('pageSize') pageSize: number = 8 // Tamanho padrão da página é 20
   ) {
     const userId = req.user.id;
     const result = await this.bookService.findBooksByUserId(userId, page, pageSize, "http://localhost:3000/books");
