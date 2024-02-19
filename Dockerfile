@@ -1,10 +1,10 @@
 # Use uma imagem base Node.js
 FROM node:14
 
-RUN yarn cache clean
+RUN yarn cache clean -force
 
 # Instale o Yarn globalmente
-RUN npm install -g yarn
+RUN npm install -g yarn -force
 
 # Instale as dependências do projeto
 RUN yarn install
