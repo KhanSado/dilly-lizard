@@ -6,6 +6,7 @@ import { JwtAuthGuard } from 'src/authentication/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import path = require('path');
+import { skip } from 'node:test';
 
 export const storage = {
   storage: diskStorage({
@@ -35,10 +36,21 @@ export class BookController {
       createPostDto);
   }
 
+  // @Get()
+  // @UseGuards(JwtAuthGuard)
+  // findBooksByUserId(@Request() req, @Query('skip') skip: Number = 0, @Query('take') take: Number = 20) {
+  //   return this.bookService.findBooksByUserId(req.user.id, Number(skip), Number(take));
+  // }
   @Get()
   @UseGuards(JwtAuthGuard)
-  findBooksByUserId(@Request() req) {
-    return this.bookService.findBooksByUserId(req.user.id);
+  async findBooksByUserId(
+    @Request() req,
+    @Query('currentPage') page: number = 1, // Página padrão é 1
+    @Query('pageSize') pageSize: number = 20 // Tamanho padrão da página é 20
+  ) {
+    const userId = req.user.id;
+    const result = await this.bookService.findBooksByUserId(userId, page, pageSize, "http://localhost:3000/books");
+    return { result };
   }
 
   @Patch(':id')
