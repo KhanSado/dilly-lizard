@@ -1,6 +1,9 @@
 import { Prisma } from "@prisma/client";
 
 export class Book implements Prisma.BookCreateInput {
+    qtdPages: number;
+    qtdRead: number;
+    lastRead?: string | Date;
     isReading: boolean;
     readed: boolean;
     id?: string;

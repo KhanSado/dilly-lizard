@@ -14,8 +14,11 @@ export class BooksService {
           title: createBookDto.title,
           subtitle: createBookDto.subtitle,
           sumary: createBookDto.sumary,
-          isReading: createBookDto.isReading,
-          readed: createBookDto.readed,
+          isReading: Boolean(createBookDto.isReading),
+          readed: Boolean(createBookDto.readed),
+          qtdPages: Number(createBookDto.qtdPages),
+          qtdRead: Number(createBookDto.qtdRead),
+          lastRead: createBookDto.lastRead,
           author: {
             connect: { id: authorId },
           },
@@ -28,7 +31,7 @@ export class BooksService {
           publisherCompany: {
             connect: { id: publisherCompanyId }
           }
-        },
+        }        
       });
   }
 

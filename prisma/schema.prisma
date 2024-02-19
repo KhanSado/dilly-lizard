@@ -28,6 +28,9 @@ model Book {
   isReading     Boolean   @db.Boolean
   readed        Boolean   @db.Boolean
   bookCover     String?   @db.VarChar(150)
+  qtdPages      Int       @db.Integer
+  qtdRead       Int       @db.Integer
+  lastRead      DateTime?  @db.Date
 
   usersId       String
   user_owner    Users?    @relation(fields: [usersId], references: [id])

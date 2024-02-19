@@ -4,6 +4,9 @@ export class CreateBookDto {
     sumary:string;
     bookCover?:string;
     isReading?: boolean;
-    readed?: boolean
+    readed?: boolean;
+    qtdPages: number;
+    qtdRead: number;
+    lastRead?: string | Date;
   }
   
