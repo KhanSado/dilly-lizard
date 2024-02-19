@@ -3,7 +3,9 @@ FROM node:18
 
 RUN apt-get update && apt-get install -y npm
 
-RUN npm cache clean
+# RUN npm cache clean
+RUN npm cache verify
+
 
 RUN yarn cache clean
 
