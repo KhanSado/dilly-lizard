@@ -2,7 +2,7 @@
 FROM node:14
 
 # Instale o Yarn globalmente
-RUN npm install -g yarn
+RUN npm install -g yarn -force
 
 # Defina o diretório de trabalho dentro do contêiner
 WORKDIR /usr/src
@@ -11,13 +11,13 @@ WORKDIR /usr/src
 COPY package.json yarn.lock ./
 
 # Instale as dependências do projeto
-RUN yarn install
+RUN yarn install -force
 
 # Copie o restante dos arquivos do projeto para o diretório de trabalho
 COPY . .
 
 # Construa a aplicação
-RUN yarn build
+RUN yarn build -force
 
 # Exponha a porta em que a aplicação estará em execução (substitua a porta 3000 pela porta correta, se necessário)
 EXPOSE 3000
