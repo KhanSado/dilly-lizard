@@ -4,10 +4,10 @@ FROM node:14
 RUN yarn cache clean -force
 
 # Instale o Yarn globalmente
-RUN npm install -g yarn -force
+RUN npm install -g yarn
 
 # Instale as dependências do projeto
-RUN yarn install
+RUN yarn install -force
 
 # Defina o diretório de trabalho dentro do contêiner
 WORKDIR /usr/src
