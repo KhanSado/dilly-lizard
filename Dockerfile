@@ -1,26 +1,25 @@
 # Use uma imagem base Node.js
-FROM node:17
+FROM node:18
 
 RUN apt-get update && apt-get install -y npm
 
-RUN npm cache clean --force
+RUN npm cache clean
 
-RUN yarn cache clean -force
+RUN yarn cache clean
 
 RUN rm -rf /usr/local/bin
 
 RUN rm -rf ../lib/node_modules 
 
+RUN rm -rf node_modules
+
+RUN rm -rf package-lock.jso
+
 # Instale o Yarn globalmente
 RUN npm install --location=global yarn
 
-# Comandos adicionais, como instalação de dependências, construção de aplicativos, etc. (opcional)
-RUN npm install
-
-RUN npm run build
-
 # Instale as dependências do projeto
-RUN yarn install -force
+RUN yarn install
 
 # Defina o diretório de trabalho dentro do contêiner
 WORKDIR /usr/src
