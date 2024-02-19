@@ -10,6 +10,11 @@ RUN rm -rf ../lib/node_modules
 # Instale o Yarn globalmente
 RUN npm install --location=global yarn
 
+# Comandos adicionais, como instalação de dependências, construção de aplicativos, etc. (opcional)
+RUN npm install
+
+RUN npm run build
+
 # Instale as dependências do projeto
 RUN yarn install -force
 
@@ -30,4 +35,4 @@ COPY . .
 EXPOSE 3000
 
 # Comando para iniciar a aplicação (substitua pelo comando correto para iniciar sua aplicação)
-CMD [ "yarn", "yarn run start:prod"]
+CMD ["npm", "yarn", "yarn run start:prod"]
