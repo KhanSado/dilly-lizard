@@ -44,7 +44,8 @@ export class BooksService {
       include: {
         user_owner: true, 
         publisherCompany: true,
-        gender: true
+        gender: true,
+        author: true
       },
     });
 
