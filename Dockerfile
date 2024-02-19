@@ -13,10 +13,10 @@ RUN yarn install -force
 WORKDIR /usr/src
 
 # Construa a aplicação
-RUN yarn build 
+RUN yarn build -force
 
 # Copie o arquivo package.json e yarn.lock para o diretório de trabalho
-COPY package.json yarn.lock ./
+# COPY package.json yarn.lock ./
 
 # Copie o restante dos arquivos do projeto para o diretório de trabalho
 COPY . .
