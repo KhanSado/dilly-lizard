@@ -8,7 +8,7 @@ WORKDIR /src
 # Copy the application files into the working directory
 COPY . /app
 
-# Install the application dependenciesas
+# Install the application dependencies
 RUN npm install
 
 # Define the entry point for the container
