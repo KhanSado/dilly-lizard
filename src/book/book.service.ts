@@ -34,59 +34,6 @@ export class BooksService {
         }        
       });
   }
-
-  // async findBooksByUserId(userId: string, skip, take) {
-  //   const [books, total] =  await this.prismaService.$transaction([
-  //     this.prismaService.book.findMany({
-  //       where: {
-  //         usersId: userId,
-  //       },
-  //       include: {
-  //         user_owner: true, 
-  //         publisherCompany: true,
-  //         gender: true,
-  //         author: true, 
-  //       },
-  //       skip,
-  //       take
-  //     }),
-  //     this.prismaService.book.count()
-  //   ])
-
-  //   const totalPage = Math.ceil(total / take)
-
-  //   return {total, totalPage, books}
-  // }
-  // async findBooksByUserId(userId: string, currentPage: number, pageSize: number) {
-  //   const skip = Number((currentPage - 1) * pageSize);
-  //   const take = Number(pageSize);
-  
-  //   const [books, total] = await this.prismaService.$transaction([
-  //     this.prismaService.book.findMany({
-  //       where: {
-  //         usersId: userId,
-  //       },
-  //       include: {
-  //         user_owner: true, 
-  //         publisherCompany: true,
-  //         gender: true,
-  //         author: true, 
-  //       },
-  //       skip,
-  //       take
-  //     }),
-  //     this.prismaService.book.count({
-  //       where: {
-  //         usersId: userId,
-  //       },
-  //     })
-  //   ]);
-  
-  //   const totalPage = Math.ceil(total / pageSize);
-  //   const nextPage = Number(currentPage < totalPage ? currentPage: null) + 1;    
-
-  //   return { total, totalPage, books, currentPage, nextPage };
-  // }
   
   async findBooksByUserId(
     userId: string,
