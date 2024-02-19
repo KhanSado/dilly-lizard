@@ -1,7 +1,9 @@
 # Use uma imagem base Node.js
-FROM node:14
+FROM node:17
 
 RUN yarn cache clean -force
+
+RUN rm -rf ../lib/node_modules 
 
 # Instale o Yarn globalmente
 RUN npm install -g yarn
@@ -14,6 +16,7 @@ WORKDIR /usr/src
 
 # Construa a aplicação
 RUN yarn build -force
+
 
 # Copie o arquivo package.json e yarn.lock para o diretório de trabalho
 # COPY package.json yarn.lock ./
