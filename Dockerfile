@@ -37,9 +37,9 @@ RUN yarn install --no-lockfile --frozen-lockfile
 
 COPY src ./src
 
-# RUN apk add --no-cache postgresql-dev  # Assuming you need PostgreSQL for Prisma
+RUN apk add --no-cache postgresql-dev  # Assuming you need PostgreSQL for Prisma
 
-# ENV NODE_ENV production
+ENV NODE_ENV production
 
 RUN nest build
 
