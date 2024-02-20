@@ -7,12 +7,11 @@ WORKDIR /app
 # Copiar arquivos essenciais
 COPY package.json yarn.lock tsconfig.json prisma/schema.prisma ./
 
+# Definir variável de ambiente para conexão com o banco de dados
 ENV DATABASE_URL='postgres://postgres:MG9TK%23sbqXN%2Ab4%23@db.poxhibnnxdqztblxyihy.supabase.co:5432/dilly-kangaskan?schema'
 
 # Instalar dependências (cache limpo, lockfile congelado)
-# RUN yarn install --no-lockfile --frozen-lockfile && yarn cache clean
-# RUN yarn install
-RUN yarn install --production && npx prisma generate
+RUN yarn install --frozen-lockfile && yarn cache clean
 
 # Copiar código-fonte
 COPY src ./src
@@ -27,38 +26,37 @@ RUN yarn upgrade memfs fork-ts-checker-webpack-plugin
 RUN yarn upgrade memfs@4.0.0
 RUN yarn install --dev @types/memfs
 
+# Atualizar Prisma para versão 5.9.1
 RUN yarn add --dev prisma@5.9.1 @prisma/client@5.9.1
 
+# Gerar Prisma Client
 RUN yarn prisma generate
 
-RUN yarn run build
 # Verificar necessidade do pacote "@angular-devkit/schematics"
-# RUN if grep -q "@angular-devkit/schematics" package.json; then echo "ATENÇÃO: @angular-devkit/schematics presente. Verifique se é essencial." else echo "Pacote @angular-devkit/schematics não encontrado." fi
-
-# Contabilizar versão compatível (@angular-devkit/schematics)
-RUN (yarn why @angular-devkit/schematics || npm ls @angular-devkit/schematics) && echo
+RUN if grep -q "@angular-devkit/schematics" package.json; then echo "ATENÇÃO: @angular-devkit/schematics presente. Verifique se é essencial." else echo "Pacote @angular-devkit/schematics não encontrado." fi
 
 # Analisar logs de instalação (buscar erros relacionados)
-RUN (yarn install && yarn why @angular-devkit/schematics) || (npm install -g @angular-devkit/schematics && npm ls @angular-devkit/schematics)
+RUN yarn install && yarn why @angular-devkit/schematics || npm install -g @angular-devkit/schematics && npm ls @angular-devkit/schematics
 
 # Instalar pacotes específicos da plataforma
 RUN apk add --no-cache postgresql-dev icu-data-full
 
+# Validar schema do Prisma
 RUN npx prisma validate
 
-# Ambiente de produção
+# Definir ambiente de produção
 ENV NODE_ENV production
-# ENV DATABASE_URL postgresql://postgres:MG9TK%23sbqXN%2Ab4%23@db.poxhibnnxdqztblxyihy.supabase.co:5432/dilly-kangaskan?schema=public
 
+# Copiar todos os arquivos para o container
 COPY . .
 
 # Construir aplicação
 RUN nest build
 
-# Verificar output da construção
+# Verificar se a construção foi bem sucedida
 RUN if [ ! -d dist ]; then echo "ERRO: Diretório dist não encontrado. Verifique o comando nest build."; exit 1; fi
 
-# Volume para dependências
+# Criar volume para dependências
 VOLUME /app/node_modules
 
 # Iniciar aplicação
