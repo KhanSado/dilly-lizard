@@ -23,7 +23,7 @@ RUN yarn upgrade memfs fork-ts-checker-webpack-plugin
 RUN yarn upgrade memfs@4.0.0
 RUN yarn install --dev @types/memfs
 
-RUN apt install grep
+RUN apt-get install grep
 
 # Verificar necessidade do pacote "@angular-devkit/schematics"
 RUN if grep -q "@angular-devkit/schematics" package.json; then echo "ATENÇÃO: @angular-devkit/schematics presente. Verifique se é essencial." else echo "Pacote @angular-devkit/schematics não encontrado." fi
