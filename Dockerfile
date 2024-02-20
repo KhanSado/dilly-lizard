@@ -27,6 +27,8 @@ RUN yarn upgrade memfs fork-ts-checker-webpack-plugin
 RUN yarn upgrade memfs@4.0.0
 RUN yarn install --dev @types/memfs
 
+RUN yarn add --dev prisma@5.9.1 @prisma/client@5.9.1
+
 # Verificar necessidade do pacote "@angular-devkit/schematics"
 # RUN if grep -q "@angular-devkit/schematics" package.json; then echo "ATENÇÃO: @angular-devkit/schematics presente. Verifique se é essencial." else echo "Pacote @angular-devkit/schematics não encontrado." fi
 
@@ -45,11 +47,13 @@ RUN npx prisma validate
 ENV NODE_ENV production
 # ENV DATABASE_URL postgresql://postgres:MG9TK%23sbqXN%2Ab4%23@db.poxhibnnxdqztblxyihy.supabase.co:5432/dilly-kangaskan?schema=public
 
+COPY . .
+
 # Construir aplicação
 RUN nest build
 
 # Verificar output da construção
-RUN if [ ! -d dist/main ]; then echo "ERRO: Diretório dist/main não encontrado. Verifique o comando nest build."; exit 1; fi
+RUN if [ ! -d dist ]; then echo "ERRO: Diretório dist não encontrado. Verifique o comando nest build."; exit 1; fi
 
 # Volume para dependências
 VOLUME /app/node_modules
