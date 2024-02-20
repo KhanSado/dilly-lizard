@@ -23,7 +23,7 @@ RUN npm install --location=global yarn
 RUN yarn install
 
 # Defina o diretório de trabalho dentro do contêiner
-WORKDIR /usr
+WORKDIR /
 
 # Construa a aplicação
 RUN yarn build -force
