@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y npm
 # RUN npm cache clean
 RUN npm cache verify
 
-
 RUN yarn cache clean
 
 RUN rm -rf /usr/local/bin
@@ -15,7 +14,7 @@ RUN rm -rf ../lib/node_modules
 
 RUN rm -rf node_modules
 
-RUN rm -rf package-lock.jso
+RUN rm -rf package-lock.json
 
 # Instale o Yarn globalmente
 RUN npm install --location=global yarn
@@ -24,7 +23,7 @@ RUN npm install --location=global yarn
 RUN yarn install
 
 # Defina o diretório de trabalho dentro do contêiner
-WORKDIR /usr/src
+WORKDIR /usr
 
 # Construa a aplicação
 RUN yarn build -force
