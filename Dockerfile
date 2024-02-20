@@ -41,6 +41,7 @@ RUN npx prisma validate
 
 # Ambiente de produção
 ENV NODE_ENV production
+ENV DATABASE_URL= "postgresql://postgres:MG9TK%23sbqXN%2Ab4%23@db.poxhibnnxdqztblxyihy.supabase.co:5432/dilly-kangaskan?schema=public"
 
 # Construir aplicação
 RUN nest build
