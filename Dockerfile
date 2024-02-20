@@ -22,18 +22,17 @@ RUN npm install --location=global yarn
 # Instale as dependências do projeto
 RUN yarn install
 
-# Defina o diretório de trabalho dentro do contêiner
-WORKDIR /
-
 # Construa a aplicação
 RUN yarn build -force
-
 
 # Copie o arquivo package.json e yarn.lock para o diretório de trabalho
 # COPY package.json yarn.lock ./
 
 # Copie o restante dos arquivos do projeto para o diretório de trabalho
 COPY . .
+
+# Defina o diretório de trabalho dentro do contêiner
+WORKDIR /
 
 # Exponha a porta em que a aplicação estará em execução (substitua a porta 3000 pela porta correta, se necessário)
 EXPOSE 3000
