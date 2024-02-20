@@ -9,8 +9,8 @@ COPY package.json yarn.lock tsconfig.json prisma ./
 
 # Definir variável de ambiente para conexão com o banco de dados
 # ENV DATABASE_URL='postgres://postgres:MG9TK%23sbqXN%2Ab4%23@db.poxhibnnxdqztblxyihy.supabase.co:5432/dilly-kangaskan?schema'
-ENV DATABASE_URL postgresql://postgres:dilly010203empresa@db.wqkqiyyxrsxzyawrfhdt.supabase.co:5432/khangaskan?schema=public
-
+# ENV DATABASE_URL postgresql://postgres:dilly010203empresa@db.wqkqiyyxrsxzyawrfhdt.supabase.co:5432/khangaskan?schema=public
+ENV DATABASE_URL postgres://postgres.wqkqiyyxrsxzyawrfhdt:dilly010203empresa@aws-0-sa-east-1.pooler.supabase.com:5432/postgres
 # Instalar dependências (cache limpo, lockfile congelado)
 RUN yarn install --frozen-lockfile && yarn cache clean
 
