@@ -38,4 +38,4 @@ WORKDIR /
 EXPOSE 3000
 
 # Comando para iniciar a aplicação (substitua pelo comando correto para iniciar sua aplicação)
-CMD ["npm", "yarn", "yarn run start:prod"]
+CMD ["yarn run start:prod"]
