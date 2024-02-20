@@ -7,6 +7,8 @@ WORKDIR /app
 # Copiar arquivos essenciais
 COPY package.json yarn.lock tsconfig.json prisma/schema.prisma ./
 
+ENV DATABASE_URL='postgres://postgres:MG9TK%23sbqXN%2Ab4%23@db.poxhibnnxdqztblxyihy.supabase.co:5432/dilly-kangaskan?schema'
+
 # Instalar dependências (cache limpo, lockfile congelado)
 # RUN yarn install --no-lockfile --frozen-lockfile && yarn cache clean
 # RUN yarn install
@@ -41,7 +43,7 @@ RUN npx prisma validate
 
 # Ambiente de produção
 ENV NODE_ENV production
-ENV DATABASE_URL postgresql://postgres:MG9TK%23sbqXN%2Ab4%23@db.poxhibnnxdqztblxyihy.supabase.co:5432/dilly-kangaskan?schema=public
+# ENV DATABASE_URL postgresql://postgres:MG9TK%23sbqXN%2Ab4%23@db.poxhibnnxdqztblxyihy.supabase.co:5432/dilly-kangaskan?schema=public
 
 # Construir aplicação
 RUN nest build
