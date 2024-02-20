@@ -50,6 +50,8 @@ RUN npm install --global yarn
 # Crie e defina o diretório de trabalho dentro do contêiner
 WORKDIR /usr/src/app
 
+RUN rm -f /usr/local/bin/yarn
+
 # Copie o arquivo package.json e yarn.lock para o diretório de trabalho
 COPY package.json yarn.lock ./
 
