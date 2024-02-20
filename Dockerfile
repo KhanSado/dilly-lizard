@@ -16,6 +16,12 @@ RUN npm install -g npm@10.4.0
 RUN yarn upgrade memfs
 RUN yarn upgrade fork-ts-checker-webpack-plugin
 
+RUN yarn cache clean
+RUN npm cache clean
+
+RUN yarn install
+RUN npm install
+
 # Install platform-specific packages
 RUN apk add --no-cache postgresql-dev
 RUN apk add --no-cache icu-data-full
