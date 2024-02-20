@@ -33,7 +33,7 @@ RUN yarn add --dev prisma@5.9.1 @prisma/client@5.9.1
 RUN yarn prisma generate
 
 # Verificar necessidade do pacote "@angular-devkit/schematics"
-RUN if grep -q "@angular-devkit/schematics" package.json; then echo "ATENÇÃO: @angular-devkit/schematics presente. Verifique se é essencial." else echo "Pacote @angular-devkit/schematics não encontrado." fi
+RUN if grep -q "@angular-devkit/schematics" package.json; then echo "ATENcaO: @angular-devkit/schematics presente. Verifique se e essencial." else echo "Pacote @angular-devkit/schematics nao encontrado." fi
 
 # Analisar logs de instalação (buscar erros relacionados)
 RUN yarn install && yarn why @angular-devkit/schematics || npm install -g @angular-devkit/schematics && npm ls @angular-devkit/schematics
