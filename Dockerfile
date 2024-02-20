@@ -1,41 +1,58 @@
-# Use specific Node.js 17 version:
-FROM node:17-alpine
+# Utilize Node.js 18.13.0 ou superior (evita incompatibilidade)
+FROM node:18-alpine
 
-# Set working directory
+# Diretório de trabalho
 WORKDIR /app
 
-# Copy package.json and yarn.lock:
+# Copiar arquivos essenciais
 COPY package.json yarn.lock ./
 
-# Install dependencies (frozen lockfile, clean cache):
+# Instalar dependências (cache limpo, lockfile congelado)
 RUN yarn install --no-lockfile --frozen-lockfile && yarn cache clean
 
-# Copy source code:
+# Copiar código-fonte
 COPY src ./src
 
-# Install global tools & dependencies:
+# Instalar ferramentas e dependências globais
 RUN npm install -g @nestjs/cli npm@10.4.0
 
-# Update relevant dependencies:
+# Atualizar dependências relevantes
 RUN yarn upgrade memfs fork-ts-checker-webpack-plugin
 
-# Install platform-specific packages:
+# Corrigir aviso "memfs@3.6.0"
+RUN yarn upgrade memfs@4.0.0
+RUN yarn install --dev @types/memfs
+
+# Verificar necessidade do pacote "@angular-devkit/schematics"
+RUN if grep -q "@angular-devkit/schematics" package.json; then
+  echo "ATENÇÃO: @angular-devkit/schematics presente. Verifique se é essencial."
+else
+  echo "Pacote @angular-devkit/schematics não encontrado."
+fi
+
+# Contabilizar versão compatível (@angular-devkit/schematics)
+RUN (yarn why @angular-devkit/schematics || npm ls @angular-devkit/schematics) && echo
+
+# Analisar logs de instalação (buscar erros relacionados)
+RUN (yarn install && yarn why @angular-devkit/schematics) || (npm install -g @angular-devkit/schematics && npm ls @angular-devkit/schematics)
+
+# Instalar pacotes específicos da plataforma
 RUN apk add --no-cache postgresql-dev icu-data-full
 
-# Set production environment:
+# Ambiente de produção
 ENV NODE_ENV production
 
-# Build the application:
+# Construir aplicação
 RUN nest build
 
-# Verify build output:
+# Verificar output da construção
 RUN if [ ! -d dist/main ]; then echo "ERRO: Diretório dist/main não encontrado. Verifique o comando nest build."; exit 1; fi
 
-# Mount dependency volume:
+# Volume para dependências
 VOLUME /app/node_modules
 
-# Start the application:
+# Iniciar aplicação
 CMD ["yarn", "start:prod"]
 
-# Expose port:
+# Expor porta
 EXPOSE 3000
