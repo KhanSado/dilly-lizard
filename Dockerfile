@@ -8,6 +8,10 @@ RUN yarn install --no-lockfile
 
 COPY src ./src
 
+RUN yarn upgrade @nestjs/cli fork-ts-checker-webpack-plugin memfs ts-loader
+
+RUN npm install -g @nestjs/cli
+
 RUN nest build
 
 RUN prisma generate
