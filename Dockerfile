@@ -37,6 +37,8 @@ RUN yarn install --no-lockfile --frozen-lockfile
 
 COPY src ./src
 
+RUN npm install -g @nestjs/cli
+
 RUN apk add --no-cache postgresql-dev  # Assuming you need PostgreSQL for Prisma
 
 ENV NODE_ENV production
