@@ -2,10 +2,10 @@
 FROM node:18-alpine
 
 # Diretório de trabalho
-WORKDIR /app
+WORKDIR /
 
 # Copiar arquivos essenciais
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock tsconfig.json ./
 
 # Instalar dependências (cache limpo, lockfile congelado)
 RUN yarn install --no-lockfile --frozen-lockfile && yarn cache clean
