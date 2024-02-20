@@ -10,6 +10,10 @@ COPY src ./src
 
 RUN yarn upgrade @nestjs/cli fork-ts-checker-webpack-plugin memfs ts-loader
 
+RUN yarn upgrade --force webpack@^5.0.0 ts-loader
+
+RUN yarn upgrade fork-ts-checker-webpack-plugin
+
 RUN npm install -g @nestjs/cli
 
 RUN nest build
