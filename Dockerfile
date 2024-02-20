@@ -13,6 +13,8 @@ RUN yarn install --no-lockfile --frozen-lockfile && yarn cache clean
 # Copiar código-fonte
 COPY src ./src
 
+RUN npx prisma generate
+
 # Instalar ferramentas e dependências globais
 RUN npm install -g @nestjs/cli npm@10.4.0
 
