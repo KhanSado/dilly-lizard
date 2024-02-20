@@ -9,7 +9,8 @@ COPY package.json yarn.lock tsconfig.json ./
 
 # Instalar dependências (cache limpo, lockfile congelado)
 # RUN yarn install --no-lockfile --frozen-lockfile && yarn cache clean
-RUN yarn install
+# RUN yarn install
+RUN yarn install --production
 
 #Roda prisma
 RUN npx prisma generate
