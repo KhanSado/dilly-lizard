@@ -6,6 +6,10 @@ COPY package.json yarn.lock ./
 
 RUN yarn install --no-lockfile
 
+RUN yarn cache clean
+
+RUN npm install -g npm@10.4.0
+
 COPY src ./src
 
 RUN yarn upgrade @nestjs/cli fork-ts-checker-webpack-plugin memfs ts-loader
