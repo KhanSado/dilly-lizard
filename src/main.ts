@@ -5,7 +5,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const cors ={
-    origin: ['http://localhost:3000', 'http://localhost:4200'],
+    origin: ['http://localhost:3000', 'http://localhost:4200', 'https://readilly.vercel.app', 'https://lizard-x7ky.onrender.com'],
     methods: 'GET, HEAD,PUT,PATCH,POST,DELETE,OPTIONS'
   }
 
