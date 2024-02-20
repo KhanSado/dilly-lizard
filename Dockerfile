@@ -41,6 +41,11 @@ COPY src ./src
 
 # ENV NODE_ENV production
 
+RUN nest build
+
+# Verifica se o diretório dist/main foi criado
+RUN if [ ! -d dist/main ]; then echo "ERRO: Diretório dist/main não encontrado. Verifique o comando nest build."; exit 1; fi
+
 VOLUME /app/node_modules
 
 CMD ["yarn", "start:prod"]
