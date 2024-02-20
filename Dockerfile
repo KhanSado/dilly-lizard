@@ -5,15 +5,12 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Copiar arquivos essenciais
-COPY package.json yarn.lock tsconfig.json ./
+COPY package.json yarn.lock tsconfig.json prisma/schema.prisma ./
 
 # Instalar dependências (cache limpo, lockfile congelado)
 # RUN yarn install --no-lockfile --frozen-lockfile && yarn cache clean
 # RUN yarn install
-RUN yarn install --production
-
-#Roda prisma
-RUN npx prisma generate
+RUN yarn install --production && npx prisma generate
 
 # Copiar código-fonte
 COPY src ./src
@@ -39,6 +36,8 @@ RUN (yarn install && yarn why @angular-devkit/schematics) || (npm install -g @an
 
 # Instalar pacotes específicos da plataforma
 RUN apk add --no-cache postgresql-dev icu-data-full
+
+RUN npx prisma validate
 
 # Ambiente de produção
 ENV NODE_ENV production
