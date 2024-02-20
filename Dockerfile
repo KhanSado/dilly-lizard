@@ -65,3 +65,4 @@ CMD ["yarn", "start:prod"]
 
 # Expor porta
 EXPOSE 3000
+EXPOSE 5432
